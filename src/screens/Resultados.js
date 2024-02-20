@@ -38,7 +38,7 @@ const Resultados = ({ route }) => {
     <View style={styles.container}>
       <FlatList
         data={patientResult}
-        keyExtractor={(item) => item.id_registro.toString()}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={renderResultItem}
       />
     </View>
