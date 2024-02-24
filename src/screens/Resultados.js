@@ -29,6 +29,7 @@ const Resultados = ({ route }) => {
           <Text style={styles.resultItem}>Tuberculosis: {item.result_tb}%</Text>
           <Text style={styles.resultItem}>No tuberculosis: {item.result_no_tb}%</Text>
           <Text style={styles.resultItem}>Normal: {item.result_normal}%</Text>
+          <Text style={styles.resultItem}>Fecha Examen: {item.result_fecha}%</Text>
         </ListItem.Content>
       </ListItem>
     </TouchableOpacity>

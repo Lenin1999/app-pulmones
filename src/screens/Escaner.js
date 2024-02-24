@@ -37,7 +37,7 @@ const Escaner = ({ navigation, route }) => {
   }, [initialImage]);
 
   const takePictureAgain = () => {
-    navigation.navigate('CameraScreen');
+    navigation.navigate('CameraScreen', {pacienteId: pacienteId, medicoId: medicoId});
   };
 
 
@@ -88,6 +88,7 @@ const Escaner = ({ navigation, route }) => {
        enviarImagen = async () => {
         if (!capturedImage) {
           console.log('Faltan datos necesarios');
+          alert("Debe agregar una radiografía")
           return;
         }
       
@@ -126,16 +127,21 @@ const Escaner = ({ navigation, route }) => {
     <View style={styles.container}>
       {/* Sección de la ficha médica con la foto */}
       <View style={styles.medicalCard}>
-        <View style={styles.imageContainer}>
-          {capturedImage ? (
-            <Image
-              source={{ uri: capturedImage }}
-              style={styles.patientImage}
-            />
-          ) : (
-            <Text style={styles.placeholderText}>🔗</Text>
-          )}
-        </View>
+       <View style={styles.imageContainer}>
+      {capturedImage ? (
+        <Image
+          source={{ uri: capturedImage }}
+          style={styles.patientImage}
+           // Ajusta la imagen para que se ajuste al contenedor manteniendo su relación de aspecto
+        />
+      ) : (
+        <Image
+          source={require('../../assets/scan.png')}
+          style={styles.placeholderImage}
+          resizeMode="contain" // Ajusta la imagen de placeholder para que se ajuste al contenedor manteniendo su relación de aspecto
+        />
+      )}
+    </View>
 
         {/* Sección para el botón de tomar foto */}
         <View style={styles.cameraButtonContainer}>
@@ -238,11 +244,15 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: '80%',
     height: 200,
-    backgroundColor: '#ddd',
+    backgroundColor: '#fff',
     borderRadius: 10,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  placeholderImage: {
+    width: '100%', // Ancho del contenedor
+    height: '100%', // Altura del contenedor
   },
   patientImage: {
     width: '100%',

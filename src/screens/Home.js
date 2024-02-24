@@ -13,7 +13,9 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lung Lens</Text>
+      <Text style={styles.title}>TBGuarIAn 🛡️ </Text>
+      
+      <Text style={styles.title}> </Text>
 
       <Image
   source={require('../../assets/inicio.jpg')}
@@ -37,9 +39,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 50,
-    marginBottom: 80,
+    marginBottom: 100,
     fontWeight: 'bold',
     marginTop: -100,
+
   },
   imagen: {
     width: 200,

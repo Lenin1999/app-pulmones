@@ -6,6 +6,8 @@ import { Camera } from 'expo-camera';
 const CameraScreen = ({ navigation, route }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
+  const { pacienteId, medicoId } = route.params;
+
 
   useEffect(() => {
     (async () => {
@@ -21,8 +23,9 @@ const CameraScreen = ({ navigation, route }) => {
       
       if (fromScreen === 'CrearPaciente') {
         navigation.navigate('CrearPaciente', { capturedImage: photo.uri });
+       
       } else {
-        navigation.navigate('Escaner', { capturedImage: photo.uri });
+        navigation.navigate('Escaner', { capturedImage: photo.uri , pacienteId: pacienteId, medicoId: medicoId });
       }
     }
   };

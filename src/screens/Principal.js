@@ -1,59 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { SearchBar, ListItem, Avatar } from 'react-native-elements';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+
+import { useNavigation, useFocusEffect  } from '@react-navigation/native';
 import axios from 'axios';
 
-export default function PrincipalScreen() {
 
+const PrincipalScreen = ({ navigation }) => {
 
-
-const navigation = useNavigation();
 
 
       const handleCrearPress = () => {
+      
+      
         navigation.navigate('CrearPaciente');
       };
 
 
-      const mensaje = () => {
-         console.log('Datos de pacientes recibidos');
-      }
-
-
-
-  //const [patientList, setPatientList] = useState([
-   // { id: 1, name: 'Paciente 1', avatar: 'https://example.com/avatar1.jpg' },
-    //{ id: 2, name: 'Paciente 2', avatar: 'https://example.com/avatar2.jpg' },
-    //{ id: 3, name: 'Paciente 3', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 4, name: 'Paciente 4', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 5, name: 'Paciente 5', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 6, name: 'Paciente 6', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 7, name: 'Paciente 7', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 8, name: 'Paciente 8', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 9, name: 'Paciente 9', avatar: 'https://example.com/avatar3.jpg' },
-   // { id: 10, name: 'Paciente 10', avatar: 'https://example.com/avatar3.jpg' },
-    // Agrega más pacientes según sea necesario
-  //]);
 
   const [search, setSearch] = useState('');
   const [patientList, setPatientList] = useState([]);
-
+ 
+ 
+  const fetchPatients = async (setPatientList) => {
+    try {
+      const response = await axios.get('http://192.168.1.8:5000/api/pacientes/');
+      setPatientList(response.data);
+    } catch (error) {
+      console.error('Error fetching patients:', error);
+    }
+  };
   
-
+  // Dentro de tu componente funcional...
   useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const response = await axios.get('http://192.168.1.8:5000/api/pacientes/');
-        setPatientList(response.data);
-      } catch (error) {
-        console.error('Error fetching patients:', error);
-      }
-    };
-    fetchPatients();
+    fetchPatients(setPatientList);
   }, []);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchPatients(setPatientList);
+    }, [])
+  );
+ 
 
+ 
 
 
   const handleSearch = (text) => {
@@ -137,7 +127,7 @@ const navigation = useNavigation();
 
 
 
-}
+};
 
 
 const styles = StyleSheet.create({
@@ -191,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
+export default PrincipalScreen;
